@@ -22,11 +22,17 @@ RULES = [
     ("opener", "sycophantic opener",
      r"^\s*(great|excellent|fantastic|good) question\b|^\s*(certainly|absolutely|of course|sure thing)[!.,]"),
     ("opener", "happy-to-help opener", r"\bI'?d be (happy|glad|delighted) to help\b"),
+    ("opener", "reactive opener",
+     r"\bthat'?s an? (surprisingly |really |very )?(common|great|interesting|fair) (reaction|question|point|observation)\b|"
+     r"\bhere are (the )?(main|key|some) (ones|reasons|causes|points|takeaways)\b"),
     ("opener", "email pleasantry", r"\bhope (this|the) (email|message|note) finds you\b|\bI hope you'?re (doing )?well\b"),
     ("opener", "announcing the answer",
      r"\blet'?s (dive|delve|jump|dig) (in|into|deeper)\b|\blet'?s break (it|this) down\b|"
      r"\bhere'?s (a|the) (comprehensive |quick |detailed )?(breakdown|overview|rundown)\b|\bin this (article|post|guide), (we|I) will\b"),
     ("closer", "recap closer", r"^\s*(in conclusion|in summary|to summari[sz]e|overall|ultimately|all in all|to wrap up)\b"),
+    ("closer", "follow-up menu",
+     r"\bif you('?d)? (want|like)(,| to)? (tell me|I can|I could|I'?d be happy)\b|\bif you'?re curious\b|"
+     r"\bwant me to (also )?(expand|elaborate|go deeper|break down|draft|write)\b|\bwould you like me to\b"),
     ("closer", "help-desk sign-off",
      r"\bhope (this|that) helps\b|\blet me know if you (have|need) any\b|\bfeel free to (reach out|ask|let me know)\b|\bhappy (writing|coding|reading)!"),
 
@@ -35,6 +41,10 @@ RULES = [
      r"\bnot (just |only |merely |simply )?(about )?[^.,;]{1,40}[,;—–-]+\s*(it'?s|this is|that'?s|they'?re|but)\b|"
      r"\bisn'?t (just |only |merely )?(about )?[^.]{1,40}\.\s*it'?s\b|"
      r"\bnot only\b[^.]{1,80}\bbut (also)?\b|\bless about\b[^.]{1,60}\bmore about\b"),
+    ("template", "not X. not Y. just Z.", r"\bnot [^.!?]{1,40}[.!]\s+not [^.!?]{1,40}[.!]\s+(just|only|but)\b"),
+    ("template", "not because… but because…", r"\bnot because\b[^.]{1,100}\bbut because\b"),
+    ("template", "it wasn't X. it was Y.", r"\b(it|this|that|he|she|they) (wasn'?t|was not|isn'?t|is not)\b[^.!?]{1,50}[.!]\s+(it|this|that|he|she|they) (was|is)\b"),
+    ("template", "faux-profound simile", r"\bwith the (confidence|certainty|calm|grace|energy) of (a|an|someone)\b"),
     ("template", "rhetorical question then answer",
      r"\b(the (result|answer|catch|kicker|best part|twist|truth|problem|secret))\?|\b(why|what) does (this|that|it) (matter|mean)\?|\bso what'?s the (catch|point)\?"),
     ("template", "colon / 'here's' reveal",
@@ -61,6 +71,9 @@ RULES = [
      r"\bwhen it comes to\b|\bat the end of the day\b|\ba deep dive\b|\bnavigat(e|ing) the (complexities|intricacies|world|landscape)\b|"
      r"\b(rich|vibrant) tapestry\b|\b(the )?(digital|evolving|ever[- ]changing|competitive) landscape\b|\btake (it|things|your \w+) to the next level\b|"
      r"\ba (wide|broad|diverse) (range|array|variety) of\b"),
+    ("vocab", "pet word", r"\babsolute(ly)?\b"),
+    ("vocab", "decorative adverb", r"\b\w+ (silently|softly|quietly|gently)\b|\b(silently|softly|quietly|gently) \w+"),
+    ("vocab", "hedge", r"\bhowever, it (really )?depends\b|\bit (really )?depends on (your|the|a few)\b"),
     ("vocab", "intensifier", r"\b(truly|incredibly|remarkably|deeply|genuinely|undeniably)\s+\w+"),
     ("vocab", "vague attribution",
      r"\b(studies|research|experts|many people|some (people|critics)) (show|shows|suggest|suggests|agree|believe|say|argue)\b|\bit is widely (regarded|believed|accepted)\b"),
@@ -71,6 +84,13 @@ RULES = [
      r"\bshiver ran down\b|\beyes (sparkling|glinting|twinkling) with\b|\btime (seemed to )?st(ood|and) still\b|"
      r"\bsomewhere,? (in the distance,? )?a dog barked\b|\blittle did (she|he|they|I|we) know\b|\ba mix(ture)? of \w+ and \w+\b|"
      r"\ba flicker of (something|\w+)\b"),
+    ("fiction", "stock emotion shorthand",
+     r"\bknot (formed |tightened |twisted )?in (my|her|his|their) (stomach|gut|chest)\b|\blump in (my|her|his|their) (throat|chest)\b|"
+     r"\b(heart )?skipped a beat\b|\btingling sensation\b|\bbutterflies in (my|her|his|their) stomach\b|\bwave of \w+ washed over\b"),
+    ("fiction", "melodrama",
+     r"\b(collapse|shatter|crumble|unravel)(d|s|ed|ing)?\b[^.]{0,30}\b(her|his|my|their|the) (entire |whole )?world\b|"
+     r"\b(felt )?like a physical blow\b|\bbitter irony\b|\b(completely|utterly) indifferent to\b|\bthe weight of (it all|the world|everything)\b"),
+    ("fiction", "split dialogue", r"\"[^\"]{1,80},\"\s+\w+ (said|asked|whispered|replied|muttered|murmured|added)\b[^\"]{0,30},\s*\"[a-z]"),
     ("fiction", "stock fantasy name", r"\b(Elara|Lyra|Kael|Seraphina|Zephyr|Thorne|Elowen|Evelyn Reed|Aria Blackwood)\b"),
 ]
 
@@ -80,6 +100,7 @@ TRIPLET = re.compile(r"\b[\w-]+(?: [\w-]+)?, [\w-]+(?: [\w-]+)?,? and [\w-]+(?: 
 EM_DASH = re.compile(r"—|(?<=\w) -- (?=\w)|(?<=\w) – (?=\w)")
 BOLD = re.compile(r"\*\*[^*\n]+\*\*|__[^_\n]+__")
 BULLET = re.compile(r"^\s*([-*•]|\d+[.)])\s+")
+LABEL_LIST = re.compile(r"^\s*([-*•]|\d+[.)])?\s*\*\*[^*\n]+\*\*\s*[—–:]")
 HEADING = re.compile(r"^\s*#{1,6}\s+\S")
 EMOJI = re.compile("[\U0001F300-\U0001FAFF☀-➿✅❌⭐]")
 CONTRACTABLE = re.compile(r"\b(do not|does not|did not|is not|are not|was not|were not|cannot|can not|will not|would not|"
@@ -88,12 +109,27 @@ CONTRACTABLE = re.compile(r"\b(do not|does not|did not|is not|are not|was not|we
 CONTRACTION = re.compile(r"\b\w+'(t|s|re|ve|ll|d|m)\b", re.IGNORECASE)
 
 
-def sentences(text):
+def sentences(text, min_words=3):
     flat = re.sub(r"\s+", " ", re.sub(r"^\s*([-*•#>]|\d+[.)])\s*", "", text, flags=re.MULTILINE))
-    return [s for s in re.split(r"(?<=[.!?])\s+(?=[A-Z\"'(])", flat) if len(s.split()) >= 3]
+    return [s for s in re.split(r"(?<=[.!?])\s+(?=[A-Z\"'(])", flat) if len(s.split()) >= min_words]
+
+
+def anaphora_runs(sents, run=3):
+    """Find runs of `run`+ consecutive sentences starting with the same word."""
+    firsts = [re.sub(r"\W", "", s.split()[0]).lower() for s in sents]
+    found, i = [], 0
+    while i < len(firsts):
+        j = i
+        while j + 1 < len(firsts) and firsts[j + 1] == firsts[i] and firsts[i]:
+            j += 1
+        if j - i + 1 >= run and firsts[i] not in {"the", "a", "i"}:
+            found.append((firsts[i], j - i + 1))
+        i = j + 1
+    return found
 
 
 def analyse(text):
+    text = text.replace("\u2019", "'").replace("\u2018", "'").replace("\u201c", '"').replace("\u201d", '"')
     lines = text.splitlines()
     hits = []
     for n, line in enumerate(lines, 1):
@@ -114,6 +150,7 @@ def analyse(text):
         "bold_spans": len(BOLD.findall(text)),
         "bullet_lines": sum(bool(BULLET.match(l)) for l in nonblank),
         "headings": sum(bool(HEADING.match(l)) for l in nonblank),
+        "label_list_items": sum(bool(LABEL_LIST.match(l)) for l in nonblank),
         "emoji": len(EMOJI.findall(text)),
         "sentences": len(lengths),
         "mean_sentence_len": round(statistics.mean(lengths), 1) if lengths else 0,
@@ -132,6 +169,17 @@ def analyse(text):
         warnings.append("More than half the lines are bullets in a short piece. Consider prose.")
     if stats["headings"] and words < 300:
         warnings.append(f"{stats['headings']} heading(s) in under 300 words. Short pieces don't need headings.")
+    if stats["label_list_items"] >= 3:
+        warnings.append(f"{stats['label_list_items']} '**Label** — explanation' list items. This is the neatly-segmented chatbot format.")
+    for word, n in anaphora_runs(sentences(text, min_words=1)):
+        warnings.append(f"{n} sentences in a row start with '{word}'. Vary the openings.")
+    counts = {}
+    for h in hits:
+        if h["category"] in ("template", "opener", "closer"):
+            counts[h["label"]] = counts.get(h["label"], 0) + 1
+    for label, n in sorted(counts.items(), key=lambda kv: -kv[1]):
+        if n >= 2:
+            warnings.append(f"'{label}' used {n} times. Any one device should appear at most once per piece.")
     if stats["emoji"]:
         warnings.append(f"{stats['emoji']} emoji. Remove unless the register is genuinely casual.")
     v = stats["sentence_len_variation"]

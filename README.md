@@ -4,6 +4,15 @@ A Claude skill that writes and rewrites text so it doesn't read like a chatbot w
 
 It targets the things people complain about most in AI writing: em dashes everywhere, "it's not X, it's Y", everything in threes, "delve / tapestry / testament", "Great question!" openers, "In conclusion" recaps, bullet points for a two-line answer, hedging, fake enthusiasm, and confident text that says nothing specific.
 
+## Where the rules come from
+
+The pattern catalogue is built from three Reddit threads about what makes AI writing irritating:
+- [r/WritingWithAI: Why is AI so bad at writing?](https://www.reddit.com/r/WritingWithAI/comments/1uvqg0f/why_is_ai_so_bad_at_writing/), mostly about fiction: subtext, specificity, stock emotions, and the setup/reveal/metaphor formula
+- [r/Productivitycafe: Why is AI generated text so irritating](https://www.reddit.com/r/Productivitycafe/comments/1ret6bf/why_is_ai_generated_text_so_irritating/), about the chatbot voice: platitudes, over-explaining, bullet-point segmentation, follow-up menus
+- [r/NoStupidQuestions: Why is AI so bad with text?](https://www.reddit.com/r/NoStupidQuestions/comments/1phl0ne/why_is_ai_so_bad_with_text/), which turned out to be about lettering in AI images, so it contributed little
+
+It also draws on widely shared lists of AI tells. Quotes from the threads are marked *(thread)* in `references/patterns.md`.
+
 ## What's in it
 
 ```
